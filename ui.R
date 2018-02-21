@@ -1,6 +1,4 @@
 library(shiny)
-library(ggplot2)
-load(url("http://s3.amazonaws.com/assets.datacamp.com/production/course_4850/datasets/movies.Rdata"))
 
 # Define UI for application that plots features of movies
 ui <- fluidPage(
@@ -49,16 +47,4 @@ ui <- fluidPage(
   )
 )
 
-# Define server function required to create the scatterplot
-server <- function(input, output) {
-  
-  # Create the scatterplot object the plotOutput function is expecting
-  output$scatterplot <- renderPlot({
-    ggplot(data = movies, aes_string(x = input$x, y = input$y,
-                                     color = input$z)) +
-      geom_point()
-  })
-}
 
-# Create a Shiny app object
-shinyApp(ui = ui, server = server)

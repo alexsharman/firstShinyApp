@@ -1,23 +1,15 @@
-
-# This is the server logic for a Shiny web application.
-# You can find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com
-#
-
 library(shiny)
+library(ggplot2)
+load(url("http://s3.amazonaws.com/assets.datacamp.com/production/course_4850/datasets/movies.Rdata"))
 
 shinyServer(function(input, output) {
 
-  output$distPlot <- renderPlot({
-
-    # generate bins based on input$bins from ui.R
-    x    <- faithful[, 2]
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-    # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
-
-  })
+      # Create the scatterplot object the plotOutput function is expecting
+    output$scatterplot <- renderPlot({
+      ggplot(data = movies, aes_string(x = input$x, y = input$y,
+                                       color = input$z)) +
+        geom_point()
+    })
+  
 
 })
